@@ -1,0 +1,78 @@
+class Doubly {
+    int data;
+    Doubly next;
+    Doubly prev;
+
+    Doubly(int data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+public class Reverse {
+
+    public static Doubly reverse(Doubly head) {
+        if (head == null) {
+            return null;
+        }
+
+        Doubly current = head;
+        Doubly temp = null;
+
+        
+        while (current != null) {
+            temp = current.prev;
+            current.prev = current.next;
+            current.next = temp;
+            current = current.prev; 
+        }
+
+        
+        if (temp != null) {
+            head = temp.prev;
+        }
+
+        return head;
+    }
+
+    public static void printList(Doubly head) {
+        Doubly current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        int t = scanner.nextInt(); 
+
+        for (int i = 0; i < t; i++) {
+            int n = scanner.nextInt();
+            Doubly head = null;
+            Doubly tail = null;
+
+            for (int j = 0; j < n; j++) {
+                int data = scanner.nextInt();
+                Doubly newNode = new Doubly(data);
+
+                if (head == null) {
+                    head = newNode;
+                    tail = newNode;
+                } else {
+                    tail.next = newNode;
+                    newNode.prev = tail;
+                    tail = newNode;
+                }
+            }
+
+            head = reverse(head);
+            printList(head);
+        }
+
+        scanner.close();
+    }
+}
